@@ -1,24 +1,24 @@
-import Foundation
+الاستيراد مؤسسة
 
-struct FetchWebPageApprovalStorage {
-    private var approvals: [ConversationID: Set<String>] = [:]
+هيكل تخزين موافقة صفحة الويب {
+    خاص فار الموافقات: [معرف المحادثة: Set<String>] = [:]
 
-    mutating func allowURLs(conversationId: ConversationID, urls: [String]) {
-        guard !conversationId.isEmpty else { return }
-        let normalizedURLs = Set(urls.compactMap(normalize))
-        guard !normalizedURLs.isEmpty else { return }
-        approvals[conversationId, default: []].formUnion(normalizedURLs)
+    متحور وظيفة السماح بعناوين URL(معرف المحادثة: معرف المحادثة، عناوين URL: [سلسلة]) {
+        حارس !معرف المحادثة.isEmpty else { return }
+        دع عناوين URL الطبيعية = تعيين (عناوين URL.compactMap(تطبيع))
+        حارس !عناوين URL الطبيعية.isEmpty else { return }
+        الموافقات[معرف المحادثة، default: []].formUnion(عناوين URL الطبيعية)
     }
 
-    func areAllowed(conversationId: ConversationID, urls: [String]) -> Bool {
-        guard !conversationId.isEmpty else { return false }
-        let normalizedURLs = Set(urls.compactMap(normalize))
-        guard !normalizedURLs.isEmpty,
-              let approvedURLs = approvals[conversationId]
-        else {
-            return false
+    وظيفة مسموح بها(معرف المحادثة: معرف المحادثة، عناوين URL: [سلسلة]) -> Bool {
+        حارس !معرف المحادثة.isEmpty else { return false }
+        دع عناوين URL الطبيعية = تعيين (عناوين URL.compactMap(تطبيع))
+        حارس !عناوين URL الطبيعية.isEmpty,
+              دع عناوين URL المعتمدة = الموافقات[معرف المحادثة]
+        آخر {
+            يعود كاذب
         }
-        return normalizedURLs.isSubset(of: approvedURLs)
+        يعود عناوين URL الطبيعية.isSubset(من: عناوين URL المعتمدة)
     }
 
     mutating func clear(conversationId: ConversationID) {
